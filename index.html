@@ -1,0 +1,424 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Giám Sát Trật Tự Giao Thông - Nhut Truong & Gemini</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc; 
+            color: #0f172a;
+        }
+
+        .official-blue {
+            background-color: #1e40af;
+        }
+
+        .primary-gradient {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+        }
+
+        .section-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+
+        .active-issue {
+            border-left: 4px solid #1e40af;
+            background-color: #f8fafc;
+            transform: translateX(4px);
+        }
+
+        .chat-container {
+            height: 400px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
+        .header-shadow {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .btn-official {
+            transition: all 0.2s;
+        }
+        .btn-official:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+
+        .legal-badge {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .ai-sparkle {
+            background: linear-gradient(90deg, #1e40af, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        /* Loading Animation */
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #94a3b8;
+            border-radius: 50%;
+            animation: typing 1s infinite ease-in-out;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Navigation -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 header-shadow">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 official-blue rounded-lg flex items-center justify-center shadow-inner">
+                    <i class="fas fa-balance-scale text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-extrabold tracking-tight text-slate-900 leading-none uppercase">Hệ Thống Giám Sát</h1>
+                    <p class="text-[10px] font-bold text-blue-700 uppercase tracking-widest mt-1">Phát triển bởi Nhut Truong - Gemini</p>
+                </div>
+            </div>
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="#analyzer" class="text-sm font-bold text-slate-600 hover:text-blue-700 transition">✨ Phân tích lỗi</a>
+                <a href="#legal-bot" class="text-sm font-bold text-slate-600 hover:text-blue-700 transition">Trợ lý AI</a>
+                <a href="#report" class="px-5 py-2.5 bg-blue-700 text-white rounded-md text-sm font-bold shadow-md hover:bg-blue-800 transition btn-official">
+                    <i class="fas fa-file-signature mr-2"></i> Gửi phản ánh
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-12 space-y-20">
+        
+        <!-- Hero Section -->
+        <section class="flex flex-col md:flex-row items-center gap-12 py-6">
+            <div class="flex-1 space-y-6">
+                <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 text-blue-800 rounded text-[11px] font-black uppercase tracking-tighter border border-blue-200">
+                    <i class="fas fa-bolt"></i> Phát triển bởi Nhut Truong - Gemini ✨
+                </div>
+                <h2 class="text-4xl md:text-6xl font-black text-slate-900 leading-[1.1]">
+                    Công Nghệ AI <br> <span class="text-blue-700">Giữ Gìn Trật Tự</span>
+                </h2>
+                <p class="text-slate-600 text-lg leading-relaxed max-w-xl">
+                    Sử dụng trí tuệ nhân tạo để phân tích hành vi vi phạm, tra cứu pháp luật tức thì và soạn thảo văn bản kiến nghị chuyên nghiệp.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#analyzer" class="px-6 py-3 bg-slate-900 text-white font-bold rounded-lg text-sm hover:bg-slate-800 transition shadow-lg">Khám phá tính năng ✨</a>
+                    <a href="#monitor" class="px-6 py-3 bg-white text-slate-900 border border-slate-200 font-bold rounded-lg text-sm hover:bg-slate-50 transition">Xem danh mục vi phạm</a>
+                </div>
+            </div>
+            <div class="flex-1 w-full">
+                <!-- AI Analyzer Tool ✨ -->
+                <div id="analyzer" class="section-card rounded-3xl overflow-hidden border-2 border-blue-200">
+                    <div class="bg-blue-50 border-b border-blue-100 px-6 py-4 flex items-center justify-between">
+                        <span class="text-sm font-black text-blue-800 uppercase tracking-widest flex items-center gap-2">
+                            <i class="fas fa-magnifying-glass-chart"></i> Phân tích hành vi vi phạm ✨
+                        </span>
+                        <span class="text-[10px] bg-blue-600 text-white px-2 py-0.5 rounded font-bold">LIVE AI</span>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <p class="text-xs text-slate-500 font-medium">Nhập mô tả hành vi bạn quan sát được (VD: xe Exciter nẹt pô, xe đạp điện chạy 70km/h):</p>
+                        <div class="relative">
+                            <textarea id="analyzer-input" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm focus:ring-2 focus:ring-blue-600 outline-none transition" rows="3" placeholder="Ví dụ: Có một nhóm thanh niên lái xe máy thay pô nổ rất to, lạng lách tại đường X..."></textarea>
+                        </div>
+                        <button onclick="analyzeSituation()" class="w-full py-3 primary-gradient text-white font-black rounded-xl text-sm shadow-md btn-official flex items-center justify-center gap-2">
+                            PHÂN TÍCH TÌNH HUỐNG ✨
+                        </button>
+                        <div id="analyzer-result" class="hidden mt-4 p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3 animate-pulse">
+                            <div class="h-4 bg-slate-200 rounded w-3/4"></div>
+                            <div class="h-4 bg-slate-200 rounded w-1/2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Monitoring Section -->
+        <section id="monitor" class="space-y-8">
+            <div class="border-l-4 border-blue-700 pl-4">
+                <h3 class="text-2xl font-black text-slate-900 uppercase">Phân loại phương tiện độ chế</h3>
+                <p class="text-slate-500 text-sm">Tra cứu nhanh các lỗi vi phạm kết cấu phổ biến</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-1 space-y-3">
+                    <div onclick="selectIssue('moto_mod')" id="card-moto_mod" class="section-card p-5 rounded-xl cursor-pointer active-issue">
+                        <h4 class="font-extrabold text-slate-900 text-sm">Xe máy độ (Xe cọp)</h4>
+                        <p class="text-[11px] text-slate-500 mt-1">Thay đổi dung tích, dàn áo, kết cấu máy</p>
+                    </div>
+                    <div onclick="selectIssue('ebike_mod')" id="card-ebike_mod" class="section-card p-5 rounded-xl cursor-pointer">
+                        <h4 class="font-extrabold text-slate-900 text-sm">Xe đạp điện kích tốc</h4>
+                        <p class="text-[11px] text-slate-500 mt-1">Độ bình cường độ cao, thay IC</p>
+                    </div>
+                    <div onclick="selectIssue('noise')" id="card-noise" class="section-card p-5 rounded-xl cursor-pointer">
+                        <h4 class="font-extrabold text-slate-900 text-sm">Ô nhiễm âm thanh</h4>
+                        <p class="text-[11px] text-slate-500 mt-1">Thay pô độ nổ lớn, nẹt pô</p>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 section-card rounded-2xl p-8 border-t-4 border-t-blue-700">
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-start">
+                            <h4 id="issue-title" class="text-2xl font-black text-blue-800">Xe máy độ (Xe cọp)</h4>
+                            <span id="issue-level" class="px-3 py-1 legal-badge text-[10px] font-black uppercase rounded">Nghị định 123</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-3">
+                                <p class="text-xs font-black text-slate-400 uppercase tracking-widest">Dấu hiệu:</p>
+                                <ul id="issue-list" class="space-y-2"></ul>
+                            </div>
+                            <div class="space-y-3">
+                                <p class="text-xs font-black text-slate-400 uppercase tracking-widest">Mức xử phạt:</p>
+                                <div id="issue-legal" class="text-sm text-slate-700 leading-relaxed font-medium bg-blue-50 p-4 rounded-xl"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Legal Assistant -->
+        <section id="legal-bot" class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div class="space-y-6">
+                <h3 class="text-3xl font-black text-slate-900">Trợ Lý <span class="ai-sparkle">Justice AI ✨</span></h3>
+                <p class="text-slate-600 leading-relaxed">
+                    Hệ thống hỏi đáp chuyên sâu phát triển bởi <b>Nhut Truong - Gemini</b>. Bạn có thể hỏi về các tình huống cụ thể, quy trình nộp phạt trực tuyến hoặc cách thức tố giác tội phạm.
+                </p>
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="quickAsk('Mức phạt xe máy độ pô là bao nhiêu?')" class="p-4 bg-white rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:border-blue-500 transition text-left">
+                        <i class="fas fa-search text-blue-600 mb-2"></i><br>Phạt độ pô?
+                    </button>
+                    <button onclick="quickAsk('Xe đạp điện độ bình có bị tịch thu xe không?')" class="p-4 bg-white rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:border-blue-500 transition text-left">
+                        <i class="fas fa-search text-blue-600 mb-2"></i><br>Tịch thu xe đạp điện?
+                    </button>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden flex flex-col h-[500px]">
+                <div class="bg-slate-900 px-6 py-4 text-white flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        <span class="text-xs font-bold uppercase tracking-widest">Hỏi đáp pháp luật ✨</span>
+                    </div>
+                </div>
+                <div id="chat-box" class="chat-container p-6 space-y-4 flex-1">
+                    <div class="flex gap-3">
+                        <div class="w-8 h-8 bg-blue-700 rounded-lg flex items-center justify-center text-white shrink-0 text-[10px] shadow-lg"><i class="fas fa-robot"></i></div>
+                        <div class="bg-slate-100 p-4 rounded-2xl rounded-tl-none text-sm text-slate-700 border border-slate-200 max-w-[85%]">
+                            Tôi là trợ lý pháp luật phát triển bởi Nhut Truong & Gemini. Tôi có thể giúp bạn làm rõ các quy định về trật tự giao thông.
+                        </div>
+                    </div>
+                </div>
+                <div id="typing-indicator" class="hidden px-6 py-2 flex items-center gap-2">
+                    <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
+                </div>
+                <div class="p-4 border-t border-slate-100 flex gap-2 bg-slate-50">
+                    <input id="chat-input" type="text" class="flex-1 bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-600" placeholder="Hỏi về quy định pháp luật...">
+                    <button onclick="sendMessage()" class="w-12 h-12 primary-gradient text-white rounded-xl flex items-center justify-center shadow-lg btn-official">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Professional Reporting ✨ -->
+        <section id="report" class="bg-slate-900 rounded-[3rem] p-12 text-white shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full -mr-32 -mt-32"></div>
+            <div class="max-w-4xl mx-auto space-y-10 relative z-10 text-center">
+                <div class="space-y-4">
+                    <h3 class="text-4xl font-black uppercase tracking-tight">Cổng Soạn Thảo Kiến Nghị <span class="text-blue-500">AI ✨</span></h3>
+                    <p class="text-slate-400 text-lg">Hệ thống thông minh được phát triển bởi Nhut Truong. AI sẽ tự động tạo đơn phản ánh đúng chuẩn hành chính.</p>
+                </div>
+                
+                <div class="flex flex-col gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input id="report-location" type="text" class="bg-slate-800 border border-slate-700 rounded-xl px-6 py-4 text-sm" placeholder="Địa điểm xảy ra...">
+                        <input id="report-time" type="text" class="bg-slate-800 border border-slate-700 rounded-xl px-6 py-4 text-sm" placeholder="Thời gian (vd: 22h đêm qua)...">
+                    </div>
+                    <textarea id="report-details" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-6 py-4 text-sm h-32" placeholder="Mô tả chi tiết hành vi, biển số xe, đặc điểm nhận dạng..."></textarea>
+                    <button onclick="generateReport()" class="w-full py-5 bg-blue-600 text-white font-black rounded-xl hover:bg-blue-700 shadow-xl text-lg flex items-center justify-center gap-3 btn-official">
+                        XUẤT ĐƠN KIẾN NGHỊ ✨
+                    </button>
+                </div>
+                
+                <div id="report-result" class="hidden bg-slate-800 border border-slate-700 rounded-2xl p-8 text-left space-y-6">
+                    <div class="flex items-center justify-between border-b border-slate-700 pb-4">
+                        <span class="text-blue-400 font-bold uppercase text-xs">Văn bản dự thảo - Nhut Truong AI</span>
+                        <button onclick="copyReport()" class="text-xs bg-slate-700 px-3 py-1 rounded hover:bg-slate-600 transition">Sao chép</button>
+                    </div>
+                    <div id="report-text" class="text-sm leading-relaxed text-slate-300 font-serif whitespace-pre-wrap h-80 overflow-y-auto pr-2"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-16 px-6 text-center">
+        <div class="max-w-7xl mx-auto flex flex-col items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 official-blue rounded flex items-center justify-center text-white"><i class="fas fa-balance-scale"></i></div>
+                <span class="text-xl font-black uppercase tracking-tighter">Hệ Thống Giám Sát AI</span>
+            </div>
+            <p class="text-sm font-bold text-slate-700">Ứng dụng được phát triển bởi Nhut Truong - Gemini</p>
+            <p class="text-xs text-slate-400 max-w-lg leading-relaxed">Cổng thông tin được xây dựng nhằm nâng cao ý thức chấp hành luật lệ giao thông. Mọi thông tin phản ánh sẽ được AI xử lý hỗ trợ soạn thảo văn bản chính xác.</p>
+            <p class="text-[10px] text-slate-300">© 2024 - Powered by Nhut Truong & Gemini AI Technology</p>
+        </div>
+    </footer>
+
+    <script>
+        const apiKey = ""; 
+        
+        const issues = {
+            moto_mod: {
+                title: "Xe máy độ (Xe cọp / Độ máy)",
+                details: ["Thay đổi dung tích xi lanh (đôn nòng, chích dên)", "Thay đổi nhông sên dĩa, kích thước bánh xe", "Thay đổi màu sơn, nhãn hiệu không đúng đăng ký"],
+                legal: "Phạt từ 800.000đ - 2.000.000đ đối với cá nhân. Buộc khôi phục nguyên trạng phương tiện theo thiết kế của nhà sản xuất."
+            },
+            ebike_mod: {
+                title: "Xe đạp điện kích tốc độ",
+                details: ["Thay IC điều tốc vượt ngưỡng 25km/h", "Độ pin/bình điện cường độ cao gây nguy cơ cháy nổ", "Lắp thêm đèn trợ sáng, còi hơi trái quy định"],
+                legal: "Phạt từ 1.000.000đ - 2.000.000đ nếu phương tiện không đảm bảo tiêu chuẩn an toàn kỹ thuật. Tịch thu bình điện không rõ nguồn gốc."
+            },
+            noise: {
+                title: "Ô nhiễm âm thanh (Pô nổ)",
+                details: ["Sử dụng ống xả không bộ giảm thanh", "Nẹt pô, rú ga liên tục trong khu đô thị", "Lắp đặt thiết bị thay đổi âm lượng pô xe"],
+                legal: "Phạt từ 800.000đ - 1.000.000đ. Tịch thu tang vật vi phạm (pô độ). Áp dụng mức phạt bổ sung nếu vi phạm giờ nghỉ ngơi."
+            }
+        };
+
+        function selectIssue(id) {
+            const data = issues[id];
+            document.querySelectorAll('[id^="card-"]').forEach(c => c.classList.remove('active-issue'));
+            document.getElementById(`card-${id}`).classList.add('active-issue');
+            document.getElementById('issue-title').innerText = data.title;
+            document.getElementById('issue-legal').innerText = data.legal;
+            document.getElementById('issue-list').innerHTML = data.details.map(d => `<li class="flex items-start gap-2 text-sm text-slate-600 font-medium"><i class="fas fa-check-circle text-blue-600 mt-1"></i> ${d}</li>`).join('');
+        }
+
+        async function callGemini(prompt, systemInstruction) {
+            const maxRetries = 5;
+            let delay = 1000;
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: prompt }] }],
+                            systemInstruction: { parts: [{ text: systemInstruction }] }
+                        })
+                    });
+                    const data = await response.json();
+                    return data.candidates?.[0]?.content?.parts?.[0]?.text;
+                } catch (e) {
+                    if (i === maxRetries - 1) throw e;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2;
+                }
+            }
+        }
+
+        async function analyzeSituation() {
+            const input = document.getElementById('analyzer-input').value.trim();
+            if (!input) return;
+            const resBox = document.getElementById('analyzer-result');
+            resBox.classList.remove('hidden');
+            resBox.innerHTML = "<div class='flex items-center gap-2'><div class='typing-dot'></div><div class='typing-dot'></div><div class='typing-dot'></div><span class='text-xs font-bold text-blue-800'>Hệ thống AI đang phân tích dữ liệu vi phạm...</span></div>";
+
+            const prompt = `Phân tích tình huống giao thông sau: "${input}". Hãy cho biết: 1. Lỗi vi phạm gì? 2. Căn cứ pháp lý nào (Nghị định 100/123)? 3. Mức phạt dự kiến? 4. Mức độ nguy hiểm? Trả lời ngắn gọn, súc tích, chuyên nghiệp. Nhắc thêm rằng hệ thống được phát triển bởi Nhut Truong - Gemini.`;
+            const sys = "Bạn là chuyên gia phân tích vi phạm giao thông. Trả lời bằng tiếng Việt, định dạng rõ ràng, ngôn ngữ hành chính.";
+            
+            try {
+                const result = await callGemini(prompt, sys);
+                resBox.classList.remove('animate-pulse');
+                resBox.innerHTML = `<div class='text-sm text-slate-700 leading-relaxed font-medium'>${result.replace(/\n/g, '<br>')}</div>`;
+            } catch (e) {
+                resBox.innerHTML = "<p class='text-xs text-red-500'>Lỗi kết nối hệ thống. Vui lòng thử lại.</p>";
+            }
+        }
+
+        async function sendMessage() {
+            const inputEl = document.getElementById('chat-input');
+            const chatBox = document.getElementById('chat-box');
+            const query = inputEl.value.trim();
+            if (!query) return;
+
+            chatBox.innerHTML += `<div class="flex justify-end"><div class="bg-blue-700 p-4 rounded-2xl rounded-tr-none text-sm text-white max-w-[85%] shadow-md">${query}</div></div>`;
+            inputEl.value = "";
+            document.getElementById('typing-indicator').classList.remove('hidden');
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            try {
+                const result = await callGemini(query, "Bạn là Justice AI - Trợ lý pháp lý chuyên nghiệp được phát triển bởi Nhut Truong và Gemini. Hãy trả lời các thắc mắc về trật tự giao thông, xe máy độ, xe đạp điện dựa trên luật pháp Việt Nam. Luôn trang trọng, khách quan và khuyến khích người dân báo cáo vi phạm.");
+                document.getElementById('typing-indicator').classList.add('hidden');
+                chatBox.innerHTML += `<div class="flex gap-3"><div class="w-8 h-8 bg-blue-700 rounded-lg flex items-center justify-center text-white shrink-0 text-[10px] shadow-lg"><i class="fas fa-robot"></i></div><div class="bg-slate-100 p-4 rounded-2xl rounded-tl-none text-sm text-slate-700 border border-slate-200 max-w-[85%]">${result}</div></div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            } catch (e) {
+                document.getElementById('typing-indicator').classList.add('hidden');
+                chatBox.innerHTML += `<p class='text-xs text-center text-red-400'>Không thể phản hồi ngay bây giờ.</p>`;
+            }
+        }
+
+        function quickAsk(q) {
+            document.getElementById('chat-input').value = q;
+            sendMessage();
+        }
+
+        async function generateReport() {
+            const loc = document.getElementById('report-location').value;
+            const time = document.getElementById('report-time').value;
+            const detail = document.getElementById('report-details').value;
+            if (!detail) return;
+
+            const resBox = document.getElementById('report-result');
+            const textEl = document.getElementById('report-text');
+            resBox.classList.remove('hidden');
+            textEl.innerHTML = "Đang kết nối cơ sở dữ liệu pháp luật và soạn thảo văn bản bởi Nhut Truong AI...";
+
+            const prompt = `Soạn một mẫu đơn phản ánh vi phạm trật tự an toàn giao thông gửi Công an địa phương. 
+            Địa điểm: ${loc}. 
+            Thời gian: ${time}. 
+            Chi tiết vụ việc: ${detail}. 
+            Yêu cầu: Văn phong hành chính trang trọng, đầy đủ phần Kính gửi, Lý do, Nội dung phản ánh, Căn cứ Nghị định 100/123/NĐ-CP, Lời kết. Ghi chú đơn được hỗ trợ bởi hệ thống của Nhut Truong.`;
+
+            try {
+                const result = await callGemini(prompt, "Bạn là chuyên gia soạn thảo văn bản hành chính công vụ.");
+                textEl.innerText = result;
+                resBox.scrollIntoView({ behavior: 'smooth' });
+            } catch (e) {
+                textEl.innerText = "Lỗi soạn thảo. Vui lòng thử lại.";
+            }
+        }
+
+        function copyReport() {
+            const text = document.getElementById('report-text').innerText;
+            const temp = document.createElement('textarea');
+            temp.value = text;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            alert("Đã sao chép đơn vào bộ nhớ tạm.");
+        }
+
+        window.onload = () => selectIssue('moto_mod');
+    </script>
+</body>
+</html>
